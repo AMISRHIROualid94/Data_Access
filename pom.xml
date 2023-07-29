@@ -17,17 +17,17 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-data-jpa</artifactId>-->
-<!--&lt;!&ndash;			Exclude HikariCP and replace it with tomcat-jdbc.e.g for other connection pooling library &ndash;&gt;-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+<!--			Exclude HikariCP and replace it with tomcat-jdbc.e.g for other connection pooling library -->
 <!--			<exclusions>-->
 <!--				<exclusion>-->
 <!--					<groupId>com.zaxxer</groupId>-->
 <!--					<artifactId>HikariCP</artifactId>-->
 <!--				</exclusion>-->
 <!--			</exclusions>-->
-<!--		</dependency>-->
+		</dependency>
 <!--		<dependency>-->
 <!--			<groupId>org.apache.tomcat</groupId>-->
 <!--			<artifactId>tomcat-jdbc</artifactId>-->
@@ -42,22 +42,22 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 <!--		H2 start -->
-<!--		<dependency>-->
-<!--			<groupId>com.h2database</groupId>-->
-<!--			<artifactId>h2</artifactId>-->
-<!--			<scope>runtime</scope>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 <!--		h2 end -->
 <!--		MongoDB start -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-data-mongodb</artifactId>-->
+<!--		</dependency>-->
 			<!--		embede Mongodb-->
-		<dependency>
-			<groupId>de.flapdoodle.embed</groupId>
-			<artifactId>de.flapdoodle.embed.mongo</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>de.flapdoodle.embed</groupId>-->
+<!--			<artifactId>de.flapdoodle.embed.mongo</artifactId>-->
+<!--		</dependency>-->
 <!--		MongoDB end -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

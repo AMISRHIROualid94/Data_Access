@@ -1,27 +1,22 @@
 package com.sbip.da;
 
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
+import com.sbip.da.models.Course;
+import com.sbip.da.repositories.CourseRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataMongoTest
-@ExtendWith(SpringExtension.class)
+//@DataMongoTest
+//@ExtendWith(SpringExtension.class)
+@SpringBootTest
 class DaApplicationTests {
 
 //	@Autowired private DataSource dataSource;
-	@Autowired private MongoTemplate mongoTemplate;
+//	@Autowired private MongoTemplate mongoTemplate;
+	@Autowired
+	private CourseRepository courseRepository;
 
 	@Test
 	void contextLoads() {
@@ -33,12 +28,37 @@ class DaApplicationTests {
 //		assertThat(dataSource.getConnection().getMetaData().getDatabaseProductName()).isEqualTo("H2");
 //	}
 
+//	@Test
+//	public void givenObjectAvailableWhenSaveToCollectionThenExpectValue() throws MongoException{
+//		DBObject dbObject = BasicDBObjectBuilder.start().add("Mongodb", "Mongodb is a NoSql Database").get();
+//		mongoTemplate.save(dbObject,"collection");
+//		assertThat(mongoTemplate.findAll(DBObject.class,"collection"))
+//				.extracting("Mongodb")
+//				.containsOnly("Mongodb is a NoSql Database");
+//	}
+
 	@Test
-	public void givenObjectAvailableWhenSaveToCollectionThenExpectValue() throws MongoException{
-		DBObject dbObject = BasicDBObjectBuilder.start().add("Mongodb", "Mongodb is a NoSql Database").get();
-		mongoTemplate.save(dbObject,"collection");
-		assertThat(mongoTemplate.findAll(DBObject.class,"collection"))
-				.extracting("Mongodb")
-				.containsOnly("Mongodb is a NoSql Database");
+	public void givenCreateCourseWhenLoadTheCourseThenExpectSameCourse(){
+		Course course = new Course(
+				"Rapid Spring Boot Application Development",
+				"Spring",
+				4,
+				"'Spring Boot gives all the power of the Spring Framework without all of the complexities");
+		courseRepository.save(course);
+		course.setRating(5);
+		Course savedCourse = courseRepository.save(course);
+		assertThat(courseRepository.findById(savedCourse.getId()).get().getRating()).isEqualTo(5);
+	}
+
+	@Test
+	public void givenDeleteCourseWhenLoadTheCourseThenExpectNoCourse() {
+		Course course = new Course("Rapid Spring Boot Application Development",
+				"Spring",
+				4,
+				"'Spring Boot gives all the power of the Spring Framework without all of the complexities");
+				Course savedCourse = courseRepository.save(course);
+		assertThat(courseRepository.findById(savedCourse.getId()).get()).isEqualTo(course);
+		courseRepository.delete(course);
+		assertThat(courseRepository.findById(savedCourse.getId()).isPresent()).isFalse();
 	}
 }
