@@ -4,6 +4,7 @@ import com.sbip.da.models.Course;
 import com.sbip.da.repositories.CourseRepository;
 import com.sbip.da.repositories.CustomizedCourseRepository;
 import com.sbip.da.repositories.PagingCourseRepository;
+import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -116,6 +117,13 @@ public class DataAccessTest {
 //        System.out.println("data : "+pagingCourseRepository.findAll(pageable).getContent());
         System.out.println(getCoursesByPageAndSize(4,3));
         System.out.println(getCoursesByPageAndSizeSorted(0,5,"rating"));
+        Condition<Course> courseCondition = new Condition<Course>(){
+            @Override
+            public boolean matches(Course course) {
+                return course.getId() == 5 && course.getName().equals("Rapid Spring Boot Application Development");
+            }
+        };
+        assertThat(getCoursesByPageAndSizeSorted(0,5,"rating")).first().has(courseCondition);
     }
 
     public Iterable<Course> getCoursesByPageAndSize(int pageNumber,int sizePerPage){
