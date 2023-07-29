@@ -6,13 +6,13 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "COURSES")
-@NamedQueries({
-        @NamedQuery(name = "Course.findAllByCategory",
-        query = "select c from Course c where c.category=?1"),
-        @NamedQuery(name = "Course.findAllByCategoryOrderByName",
-        query = "select c from Course c where c.category=?1 order by c.name")
-})
+@Table(name = "COURSE")
+//@NamedQueries({
+//        @NamedQuery(name = "Course.findAllByCategory",
+//        query = "select c from Course c where c.category=?1"),
+//        @NamedQuery(name = "Course.findAllByCategoryOrderByName",
+//        query = "select c from Course c where c.category=?1 order by c.name")
+//})
 public class Course {
 
     @Id

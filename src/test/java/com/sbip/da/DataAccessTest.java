@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import javax.persistence.EntityManager;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -60,7 +61,7 @@ public class DataAccessTest {
         customizedCourseRepository.save(course);
         assertThat(Collections.singletonList(customizedCourseRepository.findAll()).size()).isEqualTo(1);
     }
-
+    @Autowired EntityManager entityManager;
     @Test
     public void givenCreateCourseWhenLoadTheCourseThenExpectSameCourse2(){
         Course course = new Course("Other Name2",
@@ -68,7 +69,7 @@ public class DataAccessTest {
                 4,
                 "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
 
-        Course course2 = new Course("Rapid Spring Boot Application Development",
+        Course course2 = new Course("The Rapid Spring Boot Application Development",
                 "Spring boot",
                 4,
                 "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
@@ -84,6 +85,11 @@ public class DataAccessTest {
 
         assertThat(courseRepository.existsByName("Other Name2")).isTrue();
         assertThat(courseRepository.countByCategory("Spring boot")).isEqualTo(2);
+        System.out.println(courseRepository.findByNameStartsWith("Rapid"));
+        System.out.println(courseRepository.findAllByCategoryOrderByName("Spring boot"));
+        System.out.println("before update : "+courseRepository.findById(1L));
+        courseRepository.updateCourseNameById("New Name",1L);
+        System.out.println("after update: "+courseRepository.findById(1L));
     }
 
     @Test
