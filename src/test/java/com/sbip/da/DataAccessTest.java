@@ -6,9 +6,11 @@ import com.sbip.da.repositories.CustomizedCourseRepository;
 import com.sbip.da.repositories.PagingCourseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -92,20 +94,20 @@ public class DataAccessTest {
 
         Course course2 = new Course("Rapid Spring Boot Application Development",
                 "Spring boot",
-                4,
+                3,
                 "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
 
         Course course3 = new Course("Rapid Spring Boot Application Development",
                 "Spring boot",
-                4,
+                1,
                 "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
         Course course4 = new Course("Rapid Spring Boot Application Development",
                 "Spring boot",
-                4,
+                2,
                 "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
         Course course5 = new Course("Rapid Spring Boot Application Development",
                 "Spring boot",
-                4,
+                6,
                 "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
          pagingCourseRepository.saveAll(Arrays.asList(course1,course2,course3,course4,course5));
 //        Pageable pageable = PageRequest.of(0,3);
@@ -113,10 +115,16 @@ public class DataAccessTest {
 //        assertThat(pageable.getPageNumber()).isEqualTo(0);
 //        System.out.println("data : "+pagingCourseRepository.findAll(pageable).getContent());
         System.out.println(getCoursesByPageAndSize(4,3));
+        System.out.println(getCoursesByPageAndSizeSorted(0,5,"rating"));
     }
 
     public Iterable<Course> getCoursesByPageAndSize(int pageNumber,int sizePerPage){
         Pageable pageable = PageRequest.of(pageNumber,sizePerPage);
+        return pagingCourseRepository.findAll(pageable).getContent();
+    }
+
+    public Iterable<Course> getCoursesByPageAndSizeSorted(int pageNumber, int sizePerPage, String sortedby){
+        Pageable pageable = PageRequest.of(pageNumber,sizePerPage, Sort.by(sortedby).descending());
         return pagingCourseRepository.findAll(pageable).getContent();
     }
 }
