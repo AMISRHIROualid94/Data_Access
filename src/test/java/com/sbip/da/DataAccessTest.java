@@ -3,9 +3,12 @@ package com.sbip.da;
 import com.sbip.da.models.Course;
 import com.sbip.da.repositories.CourseRepository;
 import com.sbip.da.repositories.CustomizedCourseRepository;
+import com.sbip.da.repositories.PagingCourseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,7 +21,7 @@ public class DataAccessTest {
 
     @Autowired private CourseRepository courseRepository;
     @Autowired private CustomizedCourseRepository customizedCourseRepository;
-
+    @Autowired private PagingCourseRepository pagingCourseRepository;
     private int count = 0;
     @Test
     public void givenCreateCourseWhenLoadTheCourseThenExpectSameCourse(){
@@ -78,6 +81,42 @@ public class DataAccessTest {
 
         assertThat(courseRepository.existsByName("Other Name2")).isTrue();
         assertThat(courseRepository.countByCategory("Spring boot")).isEqualTo(2);
+    }
 
+    @Test
+    public void givenDataAvailableWhenLoadFirstPageThenGetFiveRecords(){
+        Course course1 = new Course("Other Name2",
+                "Spring",
+                4,
+                "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
+
+        Course course2 = new Course("Rapid Spring Boot Application Development",
+                "Spring boot",
+                4,
+                "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
+
+        Course course3 = new Course("Rapid Spring Boot Application Development",
+                "Spring boot",
+                4,
+                "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
+        Course course4 = new Course("Rapid Spring Boot Application Development",
+                "Spring boot",
+                4,
+                "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
+        Course course5 = new Course("Rapid Spring Boot Application Development",
+                "Spring boot",
+                4,
+                "'Spring Boot gives all the power of the Spring Framework without all of the complexities");
+         pagingCourseRepository.saveAll(Arrays.asList(course1,course2,course3,course4,course5));
+//        Pageable pageable = PageRequest.of(0,3);
+//        assertThat(pagingCourseRepository.findAll(pageable)).hasSize(3);
+//        assertThat(pageable.getPageNumber()).isEqualTo(0);
+//        System.out.println("data : "+pagingCourseRepository.findAll(pageable).getContent());
+        System.out.println(getCoursesByPageAndSize(4,3));
+    }
+
+    public Iterable<Course> getCoursesByPageAndSize(int pageNumber,int sizePerPage){
+        Pageable pageable = PageRequest.of(pageNumber,sizePerPage);
+        return pagingCourseRepository.findAll(pageable).getContent();
     }
 }
