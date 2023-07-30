@@ -33,4 +33,5 @@ public interface CourseRepository extends CrudRepository<Course,Long> {
     boolean existsByName(String name);
     long countByCategory(String category);
 
+
 }
