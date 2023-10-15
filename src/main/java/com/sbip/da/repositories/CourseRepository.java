@@ -28,7 +28,7 @@ public interface CourseRepository extends CrudRepository<Course,Long> {
 
     @Modifying(clearAutomatically = true,flushAutomatically = true)
     @Query("update Course c set c.name=:name where c.id=:id")
-    int updateCourseNameById(@Param("name") String name,@Param("id") Long id);
+    int updateCourseNameById(@Param("name") String name,@Param("id") Long id);// when we use @Param we must passe params with :param
     Stream<Course> streamAllByCategory(String category);
     boolean existsByName(String name);
     long countByCategory(String category);
